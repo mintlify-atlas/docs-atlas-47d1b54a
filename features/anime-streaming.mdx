@@ -1,0 +1,95 @@
+---
+title: "Anime streaming"
+description: "Browse the home feed, pick a show, and start watching episodes with automatic quality selection and episode progress tracking."
+---
+
+## Home feed
+
+When you open Anikin, the home screen displays anime grouped into categories sourced from AniList. Use the category selector bar at the top to switch between:
+
+| Category | What it shows |
+|---|---|
+| **Popular** | All-time most popular anime, sorted by popularity |
+| **Recently Updated** | Episodes that aired in the last 7 days |
+| **Current Season** | Anime airing in the current seasonal window (Winter / Spring / Summer / Fall) |
+| **Trending** | Titles trending right now by popularity |
+| **New Season** | Anime from the upcoming/current Winter season |
+| **Feminine Audience** | Shoujo-tagged titles sorted by popularity |
+| **Male Audience** | Shounen-tagged titles sorted by popularity |
+| **Trash Anime** | Titles with the lowest favourite counts on AniList, sorted by favourites ascending |
+
+All categories exclude adult content and, by default, only show Japanese-origin titles. You can enable non-Japanese anime under **Settings → App Settings**.
+
+## Opening a show
+
+Tap any cover art in the home feed to open the show's detail page. The page shows the cover image, title, genre tags, and a star rating pulled from AniList. Two tabs are available at the bottom of the cover area:
+
+- **Overview** — synopsis and metadata
+- **Episodes** — the full episode list for the selected provider
+
+## Sub / dub toggle
+
+At the top of the **Episodes** tab you'll find a **Sub / Dub** toggle. Switching it reloads the episode list from the current provider using the dub version of the title (appending `(dub)` to the search query). Not all providers carry dub tracks; if no results are found, the app falls back to a manual provider search sheet.
+
+## Episode list
+
+Episodes are displayed in a scrollable grid. Several options let you customise the layout:
+
+- **Sort order** — toggle between ascending (episode 1 first) and descending (latest first). The setting is saved between sessions.
+- **Episode ranges** — for shows with more than 50 episodes, the list is split into chunks of 50. Range buttons (e.g., `1 - 50`, `51 - 100`) appear above the grid so you can jump to any segment.
+- **Grid layout** — switch between **Semi** (compact cards) and **Full** (larger cards with more detail) using the layout icon in the header. Your preference is saved automatically.
+
+Episodes that you have already started watching display a progress bar showing how far through the episode you got.
+
+## Changing the source provider
+
+Tap the **server icon** (DNS icon) in the top-right corner of the show page to open the provider picker. On Android a bottom sheet slides up; on Windows an action sheet appears. Select any provider from the list and the episode list reloads from that source. The selection is remembered as your default provider for future visits.
+
+If the app cannot automatically match the show title against the selected provider, a **provider search sheet** opens so you can search and select the correct entry manually.
+
+## How to watch an episode
+
+<Steps>
+  <Step title="Open a show">
+    Tap a title from the home feed or search results to open the show's detail page.
+  </Step>
+  <Step title="Go to the Episodes tab">
+    Tap the **Episodes** tab. The app automatically searches the active provider for the best title match using the Romaji, Native, and English titles in that order.
+  </Step>
+  <Step title="Select an episode">
+    Tap an episode card to go directly to the video player, which loads the default server and quality automatically.
+
+    Alternatively, long-press an episode card to open the **source sheet**, where you can choose a specific server or quality before playback begins.
+  </Step>
+  <Step title="Watch">
+    The video player starts streaming. Use the on-screen controls to pause, seek, change playback speed, or skip to the next or previous episode.
+  </Step>
+</Steps>
+
+## Video player
+
+The player launches in landscape mode by default. Controls available during playback:
+
+- **Previous / Next episode** buttons to move between episodes without leaving the player
+- **Playback speed selector** — standard speeds from 0.25× to 2× (or "cursed" speeds up to 50× if enabled in player settings)
+- **Subtitle overlay** — subtitles in your system language are loaded automatically when available from the source (VTT and SRT formats are supported)
+- **Source sheet** — if the current video fails, the app shows a "Try another source" prompt; you can also open the source sheet manually to switch servers mid-playback
+
+<Note>
+  On Android, if the video fails to load, a toast message appears. On Windows, an alert dialog is shown instead.
+</Note>
+
+## Episode progress tracking
+
+Progress is saved locally on your device every time you pause, stop, or leave the player.
+
+Each episode is stored under the key `{mediaId}-{episodeNumber}` in a local file (`PlayerSettings.dat`). The saved data includes:
+
+- **WatchedDuration** — position in milliseconds, used to resume from where you left off
+- **WatchedPercentage** — percentage watched, shown as a progress bar on the episode card
+
+When you return to the episode list, progress indicators are refreshed automatically so you can see at a glance which episodes you have started or completed.
+
+<Tip>
+  If you have an AniList account connected, you can also sync watch progress to your AniList profile. See [Favourites and watchlist](/features/favourites-and-watchlist) for details.
+</Tip>

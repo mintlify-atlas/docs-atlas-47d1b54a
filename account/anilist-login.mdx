@@ -1,0 +1,61 @@
+---
+title: "AniList login"
+description: "Connect your AniList account to Anikin to sync favourites and watch progress."
+---
+
+[AniList](https://anilist.co) is a free, external anime and manga tracking platform. It lets you maintain lists of titles you've watched or read, assign scores, and track your progress. When you connect your AniList account to Anikin, the app can sync your favourites and display your media lists directly inside the app.
+
+<Note>
+  AniList login is optional. Anikin works fully without an account — you can stream anime and read manga without signing in.
+</Note>
+
+## How to log in
+
+<Steps>
+  <Step title="Open the Profile tab">
+    Tap the **Profile** icon in the bottom navigation bar to open your profile page.
+  </Step>
+  <Step title="Tap Login with AniList">
+    Tap the **Login with AniList** button. Anikin opens the AniList OAuth authorization page (client ID `14733`).
+
+    <Tabs>
+      <Tab title="Android">
+        The authorization page opens in an in-app browser inside Anikin. You do not need to leave the app.
+      </Tab>
+      <Tab title="Windows">
+        The authorization page opens in your default system browser.
+      </Tab>
+    </Tabs>
+  </Step>
+  <Step title="Authorize Anikin">
+    Log in to AniList if prompted, then tap **Authorize** to grant Anikin access. AniList uses the token response type — it returns an access token directly in the redirect URL rather than an authorization code.
+  </Step>
+  <Step title="Return to Anikin">
+    Once the authorization is complete, Anikin automatically detects the access token from the redirect URL, stores it securely, and returns you to the main app. Your profile page will now show your AniList username and media list previews.
+  </Step>
+</Steps>
+
+## What you can do once logged in
+
+- **View your anime and manga lists** — your entries, sorted by score, appear on the Profile tab.
+- **Sync favourites** — toggle the favourite button on any anime or manga page to update your AniList favourites in real time.
+- **Track progress** — watch progress is associated with your account and visible across your AniList profile.
+
+## How to log out
+
+Anikin does not currently have a dedicated log-out button. The AniList access token is stored in the app's local settings file (`settings.json`). Uninstalling and reinstalling the app will clear the stored token and disconnect your AniList account.
+
+<Warning>
+  Disconnecting your AniList account disables all AniList-connected features, including favourites syncing and media list display. Your locally stored watch progress is not affected.
+</Warning>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Sync and progress" icon="rotate" href="/account/sync-and-progress">
+    Learn how watch progress and favourites are tracked locally and synced with AniList.
+  </Card>
+  <Card title="App settings" icon="sliders" href="/settings/app-settings">
+    Customize Anikin's appearance and behavior.
+  </Card>
+</CardGroup>

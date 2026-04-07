@@ -1,0 +1,114 @@
+---
+title: "Building from source"
+description: "Set up your development environment and build Anikin for Android or Windows."
+---
+
+## Prerequisites
+
+Before you build, install the following:
+
+- **[.NET SDK](https://dotnet.microsoft.com/download)** — version 10.0 or later, with the MAUI workload (see below).
+- **Android SDK** — required for the Android target. The easiest way to get it is through [Android Studio](https://developer.android.com/studio) or the `setup-android` action used in CI.
+- **Windows App SDK** — required for the Windows target. Install Visual Studio 2022 with the **.NET Multi-platform App UI development** workload, or use the standalone [Windows App SDK](https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/downloads).
+
+<Note>
+  You can build the Android target on Linux, macOS, or Windows. The Windows target can only be built on Windows.
+</Note>
+
+## Setup
+
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    git clone https://github.com/jerry08/Anikin.git
+    cd Anikin
+    ```
+  </Step>
+
+  <Step title="Install the .NET MAUI workload">
+    ```bash
+    dotnet workload install maui
+    ```
+
+    If you only need the Android target (for example, on Linux), you can install a lighter workload:
+
+    ```bash
+    dotnet workload install maui-android
+    ```
+  </Step>
+
+  <Step title="Add google-services.json (Android only)">
+    Anikin uses Firebase Crashlytics and Firebase Database on Android. You need a `google-services.json` file in the `Anikin/` project directory.
+
+    <Warning>
+      Without `google-services.json` the Android build will fail. For local development you can create a placeholder file, but Firebase features will not function.
+    </Warning>
+  </Step>
+
+  <Step title="Set the API endpoint">
+    `Anikin/Constants.cs` contains the placeholder string `anikin_api_endpoint`. In CI this is replaced by a secret. For local builds, replace the placeholder with the actual API URL if you have access to it, or leave it as-is and accept that provider loading will fail at runtime.
+  </Step>
+</Steps>
+
+## Building
+
+### Android
+
+```bash
+dotnet build Anikin/ -f net10.0-android
+```
+
+### Windows
+
+```bash
+dotnet build Anikin/ -f net10.0-windows10.0.19041.0
+```
+
+## Publishing a release APK
+
+```bash
+dotnet publish Anikin/ -f net10.0-android -c Release
+```
+
+The signed APK appears in `Anikin/bin/Release/net10.0-android/`. To sign the APK, pass the keystore properties:
+
+```bash
+dotnet publish Anikin/ -f net10.0-android -c Release \
+  -p:AndroidKeyStore=true \
+  -p:AndroidSigningKeyStore=path/to/signing-key.keystore \
+  -p:AndroidSigningStorePass=YOUR_PASSWORD \
+  -p:AndroidSigningKeyAlias=YOUR_ALIAS \
+  -p:AndroidSigningKeyPass=YOUR_PASSWORD
+```
+
+### Windows
+
+```bash
+dotnet publish Anikin/ -f net10.0-windows10.0.19041.0 -c Release \
+  -p:WindowsPackageType=None \
+  -o build/windows
+```
+
+## FFmpeg on Windows
+
+The Windows build optionally includes `ffmpeg.exe`. Place an `ffmpeg.exe` binary in the `Anikin/` project directory before building — the project file copies it to the output directory automatically if it exists.
+
+## Code formatting
+
+Anikin uses [CSharpier](https://csharpier.com) for code formatting. The `CSharpier.MsBuild` package runs CSharpier automatically during every build.
+
+To format without building:
+
+```bash
+dotnet csharpier .
+```
+
+To bypass formatting during a build (for example, in CI with pre-formatted code):
+
+```bash
+dotnet build Anikin/ -f net10.0-android -p:CSharpier_Bypass=true
+```
+
+## CI workflow
+
+The GitHub Actions workflow in `.github/workflows/main.yml` builds both targets on every push and pull request, and publishes release artifacts when a version tag is pushed. Refer to that file for a complete reference of the CI build commands.

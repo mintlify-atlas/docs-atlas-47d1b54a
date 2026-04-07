@@ -1,0 +1,78 @@
+---
+title: "Providers"
+description: "How to choose and switch between content providers in Anikin."
+---
+
+Providers are the content sources Anikin uses to fetch anime episodes and manga chapters. Anikin retrieves the list of available providers from its API endpoint at startup. Each provider has a unique key, a display name, and a language.
+
+Because providers are third-party sources, availability and quality can vary. Switching providers lets you find working streams when one source is unavailable.
+
+## Anime providers
+
+When you open an anime's episode page, Anikin uses the last selected anime provider (`LastAnimeProviderKey`) to search for and load episodes. The currently active provider is shown on the episode page.
+
+### Switching the anime provider
+
+<Steps>
+  <Step title="Open an anime's episode page">
+    Search for or tap any anime title to open its episode page.
+  </Step>
+  <Step title="Tap the provider button">
+    Tap the provider selector button on the episode page.
+
+    <Tabs>
+      <Tab title="Android">
+        A bottom sheet slides up showing all available providers grouped by language. Tap a provider to select it.
+      </Tab>
+      <Tab title="Windows">
+        An action sheet dialog appears listing all available providers. Select a provider from the list.
+      </Tab>
+    </Tabs>
+  </Step>
+  <Step title="Wait for the episode list to reload">
+    Anikin automatically searches the new provider for the current title and reloads the episode list. A snackbar confirms the switch, for example: _"Source provider changed to Zoro"_.
+  </Step>
+</Steps>
+
+Your selection is saved. The next time you open an episode page, Anikin uses the same provider.
+
+### Provider search
+
+If Anikin cannot find a title automatically on the selected provider, it opens a manual search sheet. Type the title (or an alternate name) to search the provider directly, then tap a result to load its episodes.
+
+<Tip>
+  If a title has both a Japanese and an English name, try searching with the alternate name if the automatic match fails.
+</Tip>
+
+## Manga providers
+
+Manga providers work the same way. Anikin saves your last selected manga provider in `LastMangaProviderKey`. On the manga item page, tap the provider selector to open the provider sheet and choose a different source. The chapter list reloads automatically.
+
+## Troubleshooting providers
+
+<AccordionGroup>
+  <Accordion title="Video source fails to load">
+    Try switching to a different provider. Some providers may have region restrictions or temporary downtime. If you've tried multiple providers and none work, check the [troubleshooting](/troubleshooting) page.
+  </Accordion>
+  <Accordion title="Title not found on the selected provider">
+    Anikin searches the provider using the title's Romaji name, then its native name, then its English name. If all searches return no results, the manual provider search sheet opens automatically. Enter an alternate title or a shortened version of the name to find a match.
+  </Accordion>
+  <Accordion title="Provider list fails to load">
+    Anikin fetches the provider list from a remote API on startup. If the list fails to load (for example, due to no internet connection), a toast notification appears. Restart the app with an active connection to retry.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  If a video source fails to play, switch to a different provider — different providers often host the same title with different video servers.
+</Tip>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Anime streaming" icon="play" href="/features/anime-streaming">
+    Learn how Anikin streams episodes once a provider is selected.
+  </Card>
+  <Card title="App settings" icon="sliders" href="/settings/app-settings">
+    Customize other Anikin preferences like theme and grid layout.
+  </Card>
+</CardGroup>

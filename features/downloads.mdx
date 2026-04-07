@@ -1,0 +1,75 @@
+---
+title: "Downloads"
+description: "Save episodes to your device for offline playback. Downloads run in the background with a progress indicator and support multiple simultaneous transfers."
+---
+
+## Starting a download
+
+Downloads are initiated from the **source sheet**, which you open by long-pressing an episode card on the show's episode list.
+
+<Steps>
+  <Step title="Open the source sheet">
+    Long-press an episode card to open the **VideoSource** sheet. The sheet lists all available servers and quality options fetched from the active provider.
+  </Step>
+  <Step title="Select quality (HLS streams only)">
+    If the selected source is an HLS stream, the app fetches the available quality levels (e.g., `1080p`, `720p`, `480p`) and shows an action sheet for you to choose one. For direct video URLs, the download starts immediately.
+  </Step>
+  <Step title="Download begins">
+    Tap the **download icon** next to a source entry. The file is added to the download queue and the transfer begins as soon as a slot is available.
+  </Step>
+</Steps>
+
+## Download queue
+
+Anikin supports up to **5 simultaneous downloads** by default. This limit is configurable under **Settings → App Settings** via the **Parallel Limit** option (`ParallelLimit`, default: `5`).
+
+Downloads that cannot start immediately are queued and begin automatically when a slot opens. Each download entry tracks:
+
+| Status | Meaning |
+|---|---|
+| **Started** | The transfer is actively running |
+| **Completed** | The file was saved successfully |
+| **Canceled** | You canceled the download |
+| **Failed** | An error occurred during transfer |
+
+If a download fails or is canceled, any partially written file is deleted automatically.
+
+## Platform-specific behaviour
+
+<Tabs>
+  <Tab title="Android">
+    Downloads run as a **foreground service**, keeping the transfer alive even when the app is in the background. A persistent notification shows the current progress (percentage). When all active downloads finish, a completion notification is shown displaying the save folder path.
+
+    The file is first written to the app's internal data directory as a temporary file, then copied to the public **Downloads** folder (`/storage/emulated/0/Download/` or equivalent) using the Android file copy API.
+  </Tab>
+  <Tab title="Windows">
+    Downloads run directly on a background thread. A **progress popup** is shown on screen while the download is running. When the transfer completes, the popup updates to show success; on failure or cancellation, an error label is shown.
+
+    The final file is saved to your user **Videos** folder (`%USERPROFILE%\Videos\`).
+  </Tab>
+</Tabs>
+
+## File naming
+
+Downloaded files are named using the pattern:
+
+```
+{Anime Title} - Ep {Episode Number}.{ext}
+```
+
+Characters not allowed in file names are stripped automatically. The file extension is taken from the source URL; if none is found or it is unusually long, `.mp4` is used as the default.
+
+## Where files are saved
+
+| Platform | Save location |
+|---|---|
+| Android | Public Downloads folder |
+| Windows | User Videos folder (`%USERPROFILE%\Videos`) |
+
+## FFmpeg on Windows
+
+HLS downloads on Windows use an `ffmpeg.exe` binary that the app expects to find in its own directory. Official release ZIPs include FFmpeg when available. If you are running a self-built version and HLS downloads fail, place an `ffmpeg.exe` binary in the same folder as `Anikin.exe`.
+
+<Tip>
+  Direct MP4/video URL downloads do not require FFmpeg and will work without it.
+</Tip>

@@ -1,0 +1,63 @@
+---
+title: "Sync and progress"
+description: "How watch progress and favourites are tracked and synced with AniList."
+---
+
+Anikin tracks your watch progress in two ways: locally on your device, and — when you're logged in — through your AniList account.
+
+## Local progress tracking
+
+Anikin records how far you've watched each episode on your device, without requiring an account. Every episode you watch is stored in `PlayerSettings` under a dictionary keyed by `"{mediaId}-{episodeNumber}"`. Each entry holds:
+
+- **Watched percentage** — how much of the episode you've completed (0–100%).
+- **Watched duration** — the absolute playback position in milliseconds.
+- **Anime name** — the title the episode belongs to.
+
+This progress data is stored locally in `PlayerSettings.dat` inside the app's data directory. It persists across app restarts but is tied to the device.
+
+### Progress indicator on episode cards
+
+When you open an anime's episode list, Anikin reads local progress for every episode and displays a percentage indicator on each episode card in the grid. This gives you a visual overview of what you've started or finished without opening each episode.
+
+<Note>
+  Local progress is device-local. If you reinstall the app or switch devices, local progress is not restored unless you have AniList sync enabled.
+</Note>
+
+## AniList sync
+
+When you're logged in with your AniList account, Anikin connects to AniList for two additional sync features.
+
+### Favourites
+
+Tapping the favourite button on an anime or manga page calls `AniClient.ToggleMediaFavoriteAsync`, which immediately updates your AniList favourites list. The toggle is real-time — if the AniList response disagrees with the local state (for example, due to a race condition), Anikin retries the toggle until the states match.
+
+<Warning>
+  Toggling favourites requires AniList login. If you tap the favourite button without being logged in, Anikin prompts you to sign in first.
+</Warning>
+
+### Media lists
+
+The **Profile** tab loads your AniList anime and manga lists via `AniClient.GetUserEntriesAsync`. Entries are sorted by score in descending order. The banner image of your highest-scored title appears as a visual header for each list section.
+
+## Cross-device sync
+
+| Feature | Without AniList | With AniList |
+|---|---|---|
+| Episode progress percentage | Device-local only | Stored locally; AniList tracks list status |
+| Favourites | Not available | Synced to AniList in real time |
+| Media lists | Not available | Loaded from AniList on every app launch |
+
+<Note>
+  AniList tracks which titles are on your list and your list status (watching, completed, etc.), but granular per-episode progress percentages are stored locally on your device. Connect AniList to ensure your list status and favourites are available on any device.
+</Note>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="AniList login" icon="user" href="/account/anilist-login">
+    Connect your AniList account to enable sync features.
+  </Card>
+  <Card title="Favourites and watchlist" icon="heart" href="/features/favourites-and-watchlist">
+    Learn more about managing your favourites inside Anikin.
+  </Card>
+</CardGroup>

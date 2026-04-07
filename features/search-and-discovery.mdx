@@ -1,0 +1,79 @@
+---
+title: "Search and discovery"
+description: "Find anime and manga through the home feed categories or by searching with keywords. The app queries AniList and then matches results to a streaming provider automatically."
+---
+
+## Home feed categories
+
+The home screen organises content into categories that you can switch between using the selector bar. Each category queries AniList with different filters:
+
+<AccordionGroup>
+  <Accordion title="Popular">
+    Anime sorted by all-time AniList popularity score. Adult content is excluded.
+  </Accordion>
+  <Accordion title="Recently Updated">
+    Episodes that aired within the past 7 days, deduplicated and sorted by air time (most recent first). Fetches up to 50 entries per load. Adult content is excluded.
+  </Accordion>
+  <Accordion title="Current Season">
+    Anime airing in the current seasonal window. The season is determined automatically from the current month:
+
+    | Months | Season |
+    |---|---|
+    | January – March | Winter |
+    | April – June | Spring |
+    | July – September | Summer |
+    | October – December | Fall |
+
+    Results are sorted by popularity. Adult content is excluded.
+  </Accordion>
+  <Accordion title="Trending">
+    Anime currently trending, sorted by AniList trend popularity.
+  </Accordion>
+  <Accordion title="New Season">
+    Anime from the Winter season filter — useful for discovering seasonal premieres.
+  </Accordion>
+  <Accordion title="Shounen (Male Audience)">
+    Anime tagged **Shounen** on AniList, sorted by popularity. Adult content is excluded.
+  </Accordion>
+  <Accordion title="Shoujo (Feminine Audience)">
+    Anime tagged **Shoujo** on AniList, sorted by popularity. Adult content is excluded.
+  </Accordion>
+  <Accordion title="Trash Anime">
+    Anime with the fewest AniList favourites, sorted ascending by favourite count. A fun category for discovering obscure or low-rated titles.
+  </Accordion>
+</AccordionGroup>
+
+## Searching for a title
+
+Tap the **search icon** in the top bar to open the search screen. Type your query and the app searches AniList for matching anime titles, returning results sorted by popularity. Results load in pages of 50; scroll to the bottom to load more.
+
+Tapping a result opens the show's detail page and episode list.
+
+<Note>
+  The search screen only searches anime. To browse manga, use the **Manga** tab.
+</Note>
+
+## How providers match titles automatically
+
+When you open a show's episode (or chapter) list, Anikin does not search the streaming provider directly by AniList ID. Instead it runs a text search against the provider using the title. It tries three formats in order, stopping at the first non-empty result:
+
+1. **Romaji title** (e.g., `Shingeki no Kyojin`)
+2. **Native title** (e.g., `進撃の巨人`)
+3. **English title** (e.g., `Attack on Titan`)
+
+For dub content, `(dub)` is appended to each search attempt.
+
+The first result returned by the provider is used as the match.
+
+## Manual provider search
+
+If none of the three title searches return results, the app automatically opens a **provider search sheet**. This lets you type a different query — such as an alternative spelling or a partial title — and pick the correct entry from the provider's results yourself.
+
+The provider search sheet also appears if you want to override the automatic match. Look for the option in the episode or chapter list header.
+
+## Filtering content
+
+Two global filters affect what appears in all home feed categories and search results:
+
+- **Non-Japanese anime/manga** — disabled by default for anime. When off, only titles with `CountryOfOrigin == "JP"` are shown. Enable it under **Settings → App Settings** with the **Show Non-Japanese Anime** toggle.
+- **Adult content** — always excluded. The app passes `IsAdult = false` to every AniList query and cannot be overridden from the UI.

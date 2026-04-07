@@ -1,0 +1,90 @@
+{
+  "projectType": "saas",
+  "projectName": "Anikin",
+  "projectDescription": "A free, multi-platform app (Android & Windows) for streaming and downloading anime and manga without ads, with optional AniList account sync.",
+  "theme": "almond",
+  "primaryColor": "#141cbc",
+  "lightColor": "#848cd4",
+  "darkColor": null,
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "installation",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Core Features",
+            "pages": [
+              "features/anime-streaming",
+              "features/manga-reader",
+              "features/search-and-discovery",
+              "features/downloads",
+              "features/favourites-and-watchlist"
+            ]
+          },
+          {
+            "group": "Account & Settings",
+            "pages": [
+              "account/anilist-login",
+              "account/sync-and-progress",
+              "settings/app-settings",
+              "settings/providers"
+            ]
+          },
+          {
+            "group": "Troubleshooting & FAQ",
+            "pages": [
+              "faq",
+              "troubleshooting"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Contributing",
+        "groups": [
+          {
+            "group": "Developer Guide",
+            "pages": [
+              "contributing/overview",
+              "contributing/building",
+              "contributing/architecture",
+              "contributing/adding-providers"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Stream anime and manga across Android and Windows",
+    "Ad-free video playback via direct source parsing",
+    "Multiple provider sources with easy switching",
+    "Download episodes for offline viewing",
+    "AniList OAuth login for favourites and watch progress sync",
+    "Sub and dub support",
+    "Episode progress tracking",
+    "Auto quality selection for video playback",
+    "Manga reader with chapter navigation",
+    "Automatic app update checks via GitHub releases"
+  ],
+  "publicApiSurface": [
+    "AnimeHomeViewModel — Popular, Last Updated, Current Season, Trending feeds",
+    "EpisodeViewModel — episode listing, provider switching, progress tracking",
+    "VideoPlayerViewModel — video playback with source selection",
+    "MangaReaderViewModel — chapter-by-chapter manga reading",
+    "SearchViewModel — full-text anime search across providers",
+    "SettingsService — app theme, provider keys, AniList token, episode grid mode",
+    "DownloadCenter — queue and manage media downloads",
+    "UpdateService — check GitHub releases for new versions",
+    "ProfileViewModel — AniList user profile and media list access",
+    "IDownloadService — platform-specific download implementation (Android/Windows/Apple)"
+  ]
+}

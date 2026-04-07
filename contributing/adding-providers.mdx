@@ -1,0 +1,63 @@
+---
+title: "Adding providers"
+description: "How Anikin loads streaming providers and how to contribute new ones."
+---
+
+## How providers work in Anikin
+
+Anikin does not bundle provider logic directly in the app. Instead, it uses the **[Juro](https://github.com/jerry08/Juro)** library — a separate NuGet package ecosystem (`Juro` + `Juro.Providers`) — to handle all scraping and API communication.
+
+At runtime, `AnimeApiClient` (from the Juro library) fetches the list of available providers from a remote backend API. The app stores the last selected provider key in `SettingsService` and sends it with subsequent requests for episode data.
+
+### Provider model
+
+Each provider is represented by a `ProviderModel` with the following fields:
+
+| Field | Type | Description |
+|---|---|---|
+| `Key` | `string` | Unique identifier used when making API requests. |
+| `Name` | `string` | Human-readable display name shown in the provider selector. |
+| `Language` | `string` | Language code (e.g. `"en"`). |
+| `LanguageDisplayName` | `string` | Localised language name used to group providers in the selector UI. |
+
+### How providers are loaded
+
+1. `EpisodeViewModel` creates an `AnimeApiClient` using the API endpoint defined in `Constants.ApiEndpoint`.
+2. On initialisation, `AnimeApiClient.GetProvidersAsync()` fetches the provider list from the remote API.
+3. The list is grouped by `LanguageDisplayName` and displayed in the provider selector sheet.
+4. When the user selects a provider, its `Key` is saved to `SettingsService` and used for all subsequent episode requests.
+
+## Adding a new provider
+
+Because the provider catalogue lives in the backend API (not inside the app), adding a new provider is a two-part process:
+
+<Steps>
+  <Step title="Implement the provider in Juro">
+    Providers are scrapers implemented in the **Juro** library. Refer to the [Juro source code and documentation](https://github.com/jerry08/Juro) to understand the provider interface and how to implement a new one.
+
+    Your implementation needs to conform to the scraping interface that `AnimeApiClient` expects — typically by implementing the relevant Juro provider base class.
+  </Step>
+  <Step title="Register the provider with the backend API">
+    Once your Juro provider implementation is ready, it must be registered with the backend API that Anikin queries at `Constants.ApiEndpoint`. This backend serves the provider list and proxies episode data requests.
+
+    <Note>
+      The backend API is not part of the Anikin repository. Reach out on [GitHub Issues](https://github.com/jerry08/Anikin/issues) or the [Discord server](https://discord.com/invite/U7XweVubJN) to discuss how to get a new provider included.
+    </Note>
+  </Step>
+  <Step title="Verify in the app">
+    After your provider is registered on the backend, it should appear automatically in Anikin's provider selector without any app changes. Test that:
+
+    - The provider appears in the list with the correct name and language grouping.
+    - Searching for anime through the provider returns results.
+    - Episodes load and stream correctly.
+  </Step>
+</Steps>
+
+## Contributing
+
+Adding providers is an area where community contributions are especially welcome. If you have identified a source that Anikin does not currently support, start a discussion:
+
+- Open a [GitHub Issue](https://github.com/jerry08/Anikin/issues) describing the source and its content type (anime sub, dub, manga, etc.).
+- Join the [Discord server](https://discord.com/invite/U7XweVubJN) and bring it up in the community.
+
+Maintainers can guide you through the Juro implementation and the backend registration process.

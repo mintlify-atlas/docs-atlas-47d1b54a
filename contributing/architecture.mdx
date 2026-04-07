@@ -1,0 +1,87 @@
+---
+title: "Architecture"
+description: "An overview of the MVVM structure, layers, and key dependencies in Anikin."
+---
+
+Anikin is a single-project .NET MAUI application that targets Android and Windows from one shared codebase. It follows the **Model-View-ViewModel (MVVM)** pattern using `CommunityToolkit.Mvvm`.
+
+## Layer overview
+
+### Views
+
+Views are XAML pages and controls located in `Anikin/Views/`. Each view binds to a corresponding ViewModel through the `BindingContext`. Shell navigation routes map URLs to pages registered in `MauiProgram.cs`.
+
+### ViewModels
+
+ViewModels contain the business logic, data loading, and commands for each screen. They are located in `Anikin/ViewModels/`.
+
+**Base classes** (in `Anikin/ViewModels/Framework/`):
+
+| Class | Purpose |
+|---|---|
+| `BaseViewModel` | Common properties (`IsBusy`, `IsRefreshing`, `Title`) and helpers (`IsOnline`, `GoBack`). Inherits `ObservableObject` from `CommunityToolkit.Mvvm`. |
+| `CollectionViewModelBase` | Adds pagination state (`Offset`, `Query`, `IsLoading`, `SelectionMode`) and a virtual `CanLoadMore()` method on top of `BaseViewModel`. |
+| `CollectionViewModel<T>` | Generic collection with `ObservableRangeCollection<T> Entities` and commands: `LoadMore`, `Refresh`, `Create`, `Edit`, `View`, `Delete`, `QueryChanged`. |
+
+ViewModels use source-generated properties and commands via the `[ObservableProperty]` and `[RelayCommand]` attributes from `CommunityToolkit.Mvvm`.
+
+**Shell navigation** uses query parameters. ViewModels that receive navigation data implement `IQueryAttributable` and read from the `query` dictionary in `ApplyQueryAttributes`.
+
+### Services
+
+Services are registered in `MauiProgram.CreateMauiApp()` and injected via the .NET dependency injection container.
+
+| Service | Description |
+|---|---|
+| `SettingsService` | Persists user preferences to `settings.json` in the app data directory using [Cogwheel](https://github.com/Tyrrrz/Cogwheel). Settings include theme, provider keys, AniList token, download parallel limit, and developer mode toggle. |
+| `IDownloadService` | Platform-specific download queue. Implementations live in platform-specific files (`.android.cs`, `.windows.cs`). |
+| `UpdateService` | Checks GitHub Releases for a newer version using [Octokit](https://github.com/octokit/octokit.net) and presents an update sheet when one is found. |
+| `IAlertService` | Cross-platform alert dialogs. Registered as a singleton in `MauiProgram.cs`. |
+
+### Models
+
+Data models are in `Anikin/Models/`.
+
+| Model | Description |
+|---|---|
+| `Media` | Represents an anime or manga entry (title, description, cover image, AniList ID, URL). |
+| `ProviderModel` | A streaming provider with `Key`, `Name`, `Language`, `LanguageDisplayName`, and `IsSelected`. |
+| `EpisodeRange` | A paginated chunk of episodes (up to 50 per chunk) with start/end labels and selection state. |
+
+## Key dependencies
+
+| Package | Role |
+|---|---|
+| `Juro` + `Juro.Providers` | Anime and manga provider scraping library. `AnimeApiClient` wraps the remote API that returns providers and episode data. |
+| `Jita.AniList` | AniList GraphQL API client (`AniClient`). Used for favourites toggling, media lookup, and watch progress sync. |
+| `Jita.Aniskip` | AniSkip integration for automatic opening/ending skip timestamps. |
+| `Berry.Maui` + `Berry.Maui.MediaElement` | Custom MAUI controls including the media player used for video playback. |
+| `CommunityToolkit.Maui` + `CommunityToolkit.Maui.Markup` | MAUI community helpers and C# markup extensions. |
+| `CommunityToolkit.Mvvm` | Source-generated MVVM: `ObservableObject`, `[ObservableProperty]`, `[RelayCommand]`. |
+| `Cogwheel` | JSON-based settings persistence. |
+| `Octokit` | GitHub REST API client for update checks. |
+| `sqlite-net-pcl` | SQLite database for local download history. |
+| `Gress` | Progress reporting for downloads (`Percentage` type). |
+| `FFImageLoading.Maui` | Cached and async image loading. |
+
+## Platform-specific code
+
+Platform implementations follow the .NET MAUI convention of file suffixes:
+
+- `.android.cs` — Android-specific code
+- `.windows.cs` — Windows-specific code
+- `.macios.cs` — macOS/iOS-specific code (partially present, not currently a primary target)
+
+For example, `IDownloadService` has separate implementations for Android and Windows that use their respective native download mechanisms.
+
+## Dependency injection
+
+All views and viewmodels are registered as **transient** services in `MauiProgram.CreateMauiApp()`. `IAlertService` is registered as a **singleton**. `SettingsService` is registered as **scoped**.
+
+```csharp
+builder.Services.AddTransient<EpisodeViewModel>();
+builder.Services.AddSingleton<IAlertService, AlertService>();
+builder.Services.AddScoped<SettingsService>();
+```
+
+`AniClient` is resolved via a factory method (`AniClientFactory`) that reads the stored AniList token from `SettingsService` and configures the HTTP client accordingly.

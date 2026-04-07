@@ -1,0 +1,139 @@
+---
+title: "App settings"
+description: "Customize Anikin's appearance and behavior."
+---
+
+App settings let you control how Anikin looks and behaves. All settings are saved automatically as soon as you change them.
+
+## Where to find settings
+
+Tap the **Profile** tab in the bottom navigation bar, then scroll down to the settings section.
+
+## Available settings
+
+<AccordionGroup>
+  <Accordion title="App theme" icon="palette">
+    Controls the color scheme of the entire app.
+
+    | Value | Behavior |
+    |---|---|
+    | **Dark** | Uses a dark background throughout the app. This is the default. |
+    | **Light** | Uses a light background throughout the app. |
+    | **System** | Follows your device's system-wide dark/light mode setting. |
+
+    Changing the theme takes effect immediately. On Android, the activity is recreated to apply the new theme.
+  </Accordion>
+
+  <Accordion title="Always check for updates" icon="arrow-up-circle">
+    When enabled, Anikin checks for a new release every time the app starts.
+
+    | Default | `true` (enabled) |
+    |---|---|
+  </Accordion>
+
+  <Accordion title="Episodes grid layout" icon="grid-2x2">
+    Controls how episodes are displayed in the episode list grid.
+
+    | Value | Behavior |
+    |---|---|
+    | **Semi** | A compact grid with moderate card size. This is the default. |
+    | **Full** | A full-width layout with larger cards. |
+
+    You can also toggle the layout directly from the episode page using the grid icon in the toolbar.
+  </Accordion>
+
+  <Accordion title="Manga items grid layout" icon="grid-2x2">
+    Controls how manga chapters or items are displayed in the manga grid.
+
+    | Value | Behavior |
+    |---|---|
+    | **Semi** | A compact grid layout. |
+    | **Full** | A full-width layout with larger cards. This is the default. |
+  </Accordion>
+
+  <Accordion title="Episodes descending" icon="arrow-down-wide-narrow">
+    When enabled, episodes are sorted from newest to oldest (highest episode number first).
+
+    | Default | `true` (enabled) |
+    |---|---|
+
+    Disable this to show episodes from oldest to newest instead.
+  </Accordion>
+
+  <Accordion title="Manga chapters descending" icon="arrow-down-wide-narrow">
+    When enabled, manga chapters are sorted from newest to oldest.
+
+    | Default | `true` (enabled) |
+    |---|---|
+
+    Disable this to show chapters from oldest to newest instead.
+  </Accordion>
+
+  <Accordion title="Show non-Japanese anime" icon="globe">
+    When enabled, search results and listings include anime that are not of Japanese origin (for example, Chinese donghua or Korean manhwa-based anime).
+
+    | Default | `false` (disabled) |
+    |---|---|
+
+    Enable this if you want to browse non-Japanese animated content alongside standard anime.
+  </Accordion>
+
+  <Accordion title="Show non-Japanese manga" icon="globe">
+    When enabled, search results and listings include manga that are not of Japanese origin (for example, manhwa or manhua).
+
+    | Default | `true` (enabled) |
+    |---|---|
+
+    Disable this to show only Japanese manga.
+  </Accordion>
+
+  <Accordion title="Developer mode" icon="code">
+    When enabled, Anikin displays full error stack traces in alert dialogs instead of generic error messages.
+
+    | Default | `false` (disabled) |
+    |---|---|
+
+    <Tip>
+      Enable developer mode when troubleshooting a crash or reporting a bug — it provides additional details that help identify the cause.
+    </Tip>
+  </Accordion>
+
+  <Accordion title="Parallel download limit" icon="arrows-split-up-and-left">
+    The maximum number of download segments that run concurrently when downloading an episode.
+
+    | Default | `5` |
+    |---|---|
+
+    Increase this for faster downloads on a strong connection, or decrease it to reduce bandwidth usage.
+  </Accordion>
+</AccordionGroup>
+
+## Player settings
+
+Additional settings specific to video playback are stored separately in `PlayerSettings.dat`. These include:
+
+| Setting | Default | Description |
+|---|---|---|
+| Always landscape mode | `true` | Locks the player to landscape orientation |
+| Select server before playing | `false` | Shows the source sheet before starting playback instead of auto-selecting |
+| Seek time | `10000 ms` (10 s) | How far forward or backward a seek gesture moves |
+| Cursed speeds | `false` | Unlocks extreme playback speeds (up to 50×) in the speed selector |
+| Font size | `20` | Subtitle overlay font size |
+| Auto-skip OP/ED | `false` | Automatically skips opening and ending sequences using AniSkip timestamps |
+| Show timestamp button | `true` | Shows the skip button overlay when a timestamp is available |
+| Double tap to seek | `true` | Enables double-tap gesture for seeking |
+
+<Note>
+  Player settings are adjusted directly from the video player controls during playback, not from the Profile settings screen.
+</Note>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Providers" icon="server" href="/settings/providers">
+    Choose which content source Anikin uses for anime and manga.
+  </Card>
+  <Card title="AniList login" icon="user" href="/account/anilist-login">
+    Connect your AniList account to enable sync features.
+  </Card>
+</CardGroup>

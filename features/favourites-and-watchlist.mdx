@@ -1,0 +1,60 @@
+---
+title: "Favourites and watchlist"
+description: "Mark anime and manga as favourites and track your episode watch progress — locally on your device, or synced to AniList when you're logged in."
+---
+
+## Watch progress
+
+Anikin tracks your watch progress locally on your device with no account required. Progress is saved every time you pause, stop, or navigate away from the video player.
+
+Each episode is stored under a unique key in the format:
+
+```
+{mediaId}-{episodeNumber}
+```
+
+For example, episode 5 of a show with AniList ID `101922` would be stored as `101922-5`.
+
+The saved data includes:
+
+| Field | Description |
+|---|---|
+| **WatchedDuration** | Your position in the episode, in milliseconds |
+| **WatchedPercentage** | Percentage of the episode watched (0–100) |
+| **AnimeName** | Name of the anime at the time of saving |
+
+Progress is stored in `PlayerSettings.dat` in the app's local data directory.
+
+## Progress indicators on the episode grid
+
+When you open the episode list for any show, the app loads your saved progress for every episode in every chunk. Episodes you have started display a **progress bar** at the bottom of their card, showing the percentage watched. This refreshes each time the episode tab becomes visible.
+
+## Favouriting a title
+
+Tap the **heart icon** on the show's detail page to mark it as a favourite.
+
+<Warning>
+  Favouriting requires an AniList account. If you are not logged in, the app shows a "Login to Anilist" prompt. Without a login, the heart icon is visible but tapping it will not save anything.
+</Warning>
+
+Once you are logged in:
+
+- Tapping the heart icon immediately toggles the `IsFavorite` state on screen.
+- The change is sent to AniList in the background via `ToggleMediaFavoriteAsync`.
+- If the AniList response disagrees with the local state (e.g., due to a race condition), the toggle is retried automatically until they match.
+- The favourite state is re-fetched from AniList each time you open a show's detail page, so it reflects the latest value from your account.
+
+Favourites work the same way for both anime and manga.
+
+## AniList sync
+
+Connecting an AniList account enables syncing favourites and watch progress across devices. See [AniList login](/account/anilist-login) for instructions on linking your account.
+
+With AniList connected:
+
+- **Favourites** are stored on your AniList profile and accessible from any device or the AniList website.
+- **Watch progress** — locally stored progress is preserved on the device. Cloud sync of progress requires the AniList connection to be active when progress is saved.
+
+<Info>
+  The AniList access token is stored locally in `settings.json`. Removing the token (logging out) disables all sync features but keeps your local progress intact.
+</Info>

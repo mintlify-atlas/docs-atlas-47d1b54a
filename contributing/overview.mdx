@@ -1,0 +1,65 @@
+---
+title: "Contributing overview"
+description: "How to contribute to Anikin — code, docs, bug reports, and more."
+---
+
+Anikin welcomes contributions of all kinds. Whether you fix a bug, improve documentation, suggest a design change, or report an issue, your help makes the app better for everyone.
+
+## What you can contribute
+
+- **Code** — bug fixes, new features, performance improvements, and platform-specific enhancements.
+- **Documentation** — corrections, clarifications, new guides, and translations.
+- **Bug reports** — detailed reports that help maintainers reproduce and fix problems.
+- **Feature requests** — ideas for new functionality or improvements to existing behaviour.
+- **Design suggestions** — UI/UX feedback and mockups.
+
+## How to contribute code
+
+<Steps>
+  <Step title="Fork the repository">
+    Go to [github.com/jerry08/Anikin](https://github.com/jerry08/Anikin) and click **Fork** to create your own copy.
+  </Step>
+  <Step title="Clone your fork">
+    ```bash
+    git clone https://github.com/YOUR_USERNAME/Anikin.git
+    cd Anikin
+    ```
+  </Step>
+  <Step title="Create a branch">
+    ```bash
+    git checkout -b my-feature-or-fix
+    ```
+  </Step>
+  <Step title="Make your changes">
+    Build the project locally, implement your changes, and verify they work. See [Building from source](/contributing/building) for setup instructions.
+  </Step>
+  <Step title="Format your code">
+    Anikin uses [CSharpier](https://csharpier.com) for code formatting. CSharpier runs automatically on build via the `CSharpier.MsBuild` package. You can also run it manually:
+
+    ```bash
+    dotnet csharpier .
+    ```
+  </Step>
+  <Step title="Open a pull request">
+    Push your branch to your fork and open a pull request against the `master` branch of the main repository. Describe what your change does and reference any related issues.
+  </Step>
+</Steps>
+
+## Where to get help
+
+- **GitHub Issues** — [github.com/jerry08/Anikin/issues](https://github.com/jerry08/Anikin/issues) for bug reports and feature requests.
+- **Discord** — [discord.com/invite/U7XweVubJN](https://discord.com/invite/U7XweVubJN) for questions, discussion, and community support.
+
+## Developer guides
+
+<CardGroup cols={2}>
+  <Card title="Building from source" icon="hammer" href="/contributing/building">
+    Set up your environment and build Anikin for Android or Windows.
+  </Card>
+  <Card title="Architecture" icon="sitemap" href="/contributing/architecture">
+    Understand the MVVM structure, services, and dependency injection used in Anikin.
+  </Card>
+  <Card title="Adding providers" icon="plug" href="/contributing/adding-providers">
+    Learn how Anikin loads providers and how to contribute new ones via the Juro ecosystem.
+  </Card>
+</CardGroup>

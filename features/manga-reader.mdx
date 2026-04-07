@@ -1,0 +1,61 @@
+---
+title: "Manga reader"
+description: "Browse manga titles, open chapters, and read pages with a built-in reader that downloads images locally before display."
+---
+
+## Browsing manga
+
+The **Manga** tab on the bottom navigation bar opens the manga home view. Titles are sourced from AniList and displayed in a browsable grid. Tap any cover to open a manga's detail page, which shows the cover image, title, description, and chapter list.
+
+<Note>
+  By default, non-Japanese manga titles are included in the manga view. You can toggle this under **Settings → App Settings** using the **Show Non-Japanese Manga** option.
+</Note>
+
+## Opening a manga title
+
+Tapping a cover navigates to the manga detail page (`MangaItemViewModel`). From here the app automatically searches the active manga provider for the best match, trying the Romaji, Native, and English titles in sequence. Once a match is found, the full chapter list is loaded.
+
+If no match is found automatically, a **provider search sheet** opens so you can search for and select the correct entry manually.
+
+## Chapter list
+
+Chapters are displayed in a scrollable list or grid, depending on the active layout mode:
+
+- **Sort order** — chapters default to descending order (newest first). Toggle ascending/descending with the sort button. The preference is saved between sessions.
+- **Chapter ranges** — for manga with more than 50 chapters, the list is split into chunks of 50. Range buttons (e.g., `1 - 50`, `51 - 100`) appear so you can jump to any segment. On Windows the range order is automatically adjusted to compensate for a platform display quirk.
+- **Grid layout** — switch between **Semi** and **Full** layout modes using the grid icon. The **Full** mode is the default for manga. Your choice is saved automatically.
+
+## Reading a chapter
+
+Tap a chapter entry to open the manga reader. The reader (`MangaReaderViewModel`) fetches all pages for the chapter from the active provider, downloads each image to the app's local cache (up to 15 pages in parallel), and displays them in a vertical scroll view.
+
+<Steps>
+  <Step title="Open the manga detail page">
+    Tap a manga title from the browse view or search results.
+  </Step>
+  <Step title="Select a chapter">
+    Tap any chapter in the list to open it in the reader.
+  </Step>
+  <Step title="Read">
+    Scroll vertically through the pages. The title bar shows the current chapter number (e.g., `Chapter 12`).
+  </Step>
+  <Step title="Navigate chapters">
+    Use the back button to return to the chapter list and select another chapter.
+  </Step>
+</Steps>
+
+On Android, the system bars are hidden automatically while reading to maximise screen space and are restored when you navigate back.
+
+<Tip>
+  Long-press the cover image on the manga detail page to view the full-size cover art.
+</Tip>
+
+## Changing the source provider
+
+Tap the **server icon** in the top-right corner of the manga detail page to open the provider picker. On Android a bottom sheet appears; on Windows an action sheet is shown. Selecting a new provider reloads the chapter list from that source. Your choice is saved as the default manga provider.
+
+## Favouriting a manga title
+
+Tap the **heart icon** on the manga detail page to toggle the title as a favourite. Favouriting requires an AniList account to be connected — if you are not logged in, the app will prompt you to do so.
+
+Once connected, the favourite state syncs to your AniList account. See [Favourites and watchlist](/features/favourites-and-watchlist) for more details.
